@@ -10,32 +10,32 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
         return (
           <>
             <div className="param-group">
-              <label>Brightness</label>
+              <label>Kecerahan (Brightness)</label>
               <input type="range" className="slider" min="-100" max="100" defaultValue="10" />
             </div>
             <div className="param-group">
-              <label>Contrast</label>
+              <label>Kontras (Contrast)</label>
               <input type="range" className="slider" min="-100" max="100" defaultValue="20" />
             </div>
             <div className="param-group">
-              <label>Saturation</label>
+              <label>Saturasi (Saturation)</label>
               <input type="range" className="slider" min="0" max="200" defaultValue="150" />
             </div>
-            <button className="glass-button w-full mt-4">Apply Equalization</button>
+            <button className="glass-button w-full mt-4">Terapkan Ekualisasi</button>
           </>
         )
       case 'transform':
         return (
           <>
             <div className="param-group">
-              <label>Rotate (Degrees)</label>
+              <label>Putar (Derajat)</label>
               <input type="range" className="slider" min="0" max="360" defaultValue="0" />
             </div>
             <div className="action-grid mt-4">
-              <button className="glass-button">Flip H</button>
-              <button className="glass-button">Flip V</button>
-              <button className="glass-button">Crop</button>
-              <button className="glass-button">Resize</button>
+              <button className="glass-button">Balik H</button>
+              <button className="glass-button">Balik V</button>
+              <button className="glass-button">Potong (Crop)</button>
+              <button className="glass-button">Ubah Ukuran</button>
             </div>
           </>
         )
@@ -43,7 +43,7 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
         return (
           <>
             <div className="param-group">
-              <label>Method</label>
+              <label>Metode</label>
               <select className="glass-select">
                 <option>Canny</option>
                 <option>Sobel</option>
@@ -52,7 +52,7 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
               </select>
             </div>
             <div className="param-group mt-4">
-              <label>Threshold</label>
+              <label>Ambang Batas (Threshold)</label>
               <input type="range" className="slider" min="0" max="255" defaultValue="128" />
             </div>
           </>
@@ -61,15 +61,15 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
         return (
           <>
             <div className="param-group">
-              <label>Filter Type</label>
+              <label>Jenis Filter</label>
               <select className="glass-select">
                 <option>Gaussian Blur</option>
-                <option>Median Filter</option>
-                <option>Remove Salt & Pepper</option>
+                <option>Filter Median</option>
+                <option>Hapus Noise Salt & Pepper</option>
               </select>
             </div>
             <div className="param-group mt-4">
-              <label>Kernel Size</label>
+              <label>Ukuran Kernel</label>
               <input type="range" className="slider" min="3" max="15" step="2" defaultValue="5" />
             </div>
           </>
@@ -78,11 +78,11 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
         return (
           <>
             <div className="action-grid mb-4">
-              <button className="glass-button">To Grayscale</button>
-              <button className="glass-button">Split RGB</button>
+              <button className="glass-button">Ke Grayscale</button>
+              <button className="glass-button">Pecah RGB</button>
             </div>
             <div className="param-group mt-4">
-              <label>Hue Adjustment</label>
+              <label>Penyesuaian Hue</label>
               <input type="range" className="slider" min="-180" max="180" defaultValue="0" />
             </div>
           </>
@@ -91,48 +91,31 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
         return (
           <>
             <div className="param-group">
-              <label>Segmentation Method</label>
+              <label>Metode Segmentasi</label>
               <select className="glass-select">
-                <option>Threshold-based</option>
-                <option>Edge-based</option>
-                <option>Region-based</option>
+                <option>Berbasis Threshold</option>
+                <option>Berbasis Tepi (Edge)</option>
+                <option>Berbasis Wilayah (Region)</option>
               </select>
             </div>
-            <button className="glass-button w-full mt-4">Extract Object</button>
+            <button className="glass-button w-full mt-4">Ekstrak Objek</button>
           </>
         )
       case 'compress':
         return (
           <>
             <div className="param-group">
-              <label>Compression Method</label>
+              <label>Metode Kompresi</label>
               <select className="glass-select">
-                <option>JPEG Simulation</option>
+                <option>Simulasi JPEG</option>
                 <option>Huffman Coding</option>
                 <option>Run-Length (RLE)</option>
                 <option>Kuantisasi</option>
               </select>
             </div>
             <div className="param-group mt-4">
-              <label>Quality (Low - High)</label>
+              <label>Kualitas (Rendah - Tinggi)</label>
               <input type="range" className="slider" min="1" max="100" defaultValue="80" />
-            </div>
-          </>
-        )
-      case 'ai':
-        return (
-          <>
-            <div className="param-group">
-              <label>Target Object</label>
-              <select className="glass-select">
-                <option>Cat / Dog (Hewan)</option>
-                <option>Human / Person</option>
-                <option>Vehicles</option>
-              </select>
-            </div>
-            <button className="glass-button w-full mt-4 primary">Run CNN Detection</button>
-            <div className="mt-4" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textAlign: 'center' }}>
-              Model: MobileNetV2 (TensorFlow/Keras)
             </div>
           </>
         )
@@ -168,15 +151,15 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
       </div>
 
       <div className="panel-section flex-1">
-        <h3 className="section-title">Properties</h3>
+        <h3 className="section-title">Properti</h3>
         <div className="properties-content">
           {renderParameters()}
         </div>
       </div>
       
       <div className="panel-section actions-section">
-        <button className="glass-button w-full primary mb-2">Process Image</button>
-        <button className="glass-button w-full">Reset to Original</button>
+        <button className="glass-button w-full primary mb-2">Proses Gambar</button>
+        <button className="glass-button w-full">Kembali ke Asli</button>
       </div>
 
       <style>{`

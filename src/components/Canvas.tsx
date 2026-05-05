@@ -22,7 +22,7 @@ export default function Canvas() {
   return (
     <section className="glass-panel canvas-area animate-fade-in">
       <div className="canvas-header">
-        <h2 className="canvas-title">Workspace (Before / After)</h2>
+        <h2 className="canvas-title">Ruang Kerja (Sebelum / Sesudah)</h2>
         <div className="zoom-controls">
           <button className="glass-button">-</button>
           <span>100%</span>
@@ -40,14 +40,14 @@ export default function Canvas() {
         <div className="image-container">
           
           {/* Gambar After (bawah) */}
-          <img src={dummyImage} alt="After" className="canvas-image img-after" />
+          <img src={dummyImage} alt="Sesudah" className="canvas-image img-after" />
           
           {/* Gambar Before (atas, di-clip) */}
           <div 
             className="img-before-wrapper" 
             style={{ width: `${splitPosition}%` }}
           >
-            <img src={dummyImage} alt="Before" className="canvas-image img-before" />
+            <img src={dummyImage} alt="Sebelum" className="canvas-image img-before" />
           </div>
 
           {/* Slider line */}

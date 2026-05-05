@@ -16,14 +16,13 @@ interface SidebarProps {
 
 export default function Sidebar({ activeTool, setActiveTool }: SidebarProps) {
   const tools = [
-    { id: 'enhance', icon: <Wand2 size={20} />, label: 'Enhance' },
-    { id: 'transform', icon: <Move size={20} />, label: 'Transform' },
-    { id: 'restore', icon: <Sparkles size={20} />, label: 'Restore' },
-    { id: 'edge', icon: <BoxSelect size={20} />, label: 'Edge & Binary' },
-    { id: 'color', icon: <Palette size={20} />, label: 'Color' },
-    { id: 'segment', icon: <ScanLine size={20} />, label: 'Segment' },
-    { id: 'compress', icon: <Minimize size={20} />, label: 'Compress' },
-    { id: 'ai', icon: <Maximize size={20} />, label: 'AI Detect' },
+    { id: 'enhance', icon: <Wand2 size={20} />, label: 'Peningkatan (Enhance)' },
+    { id: 'transform', icon: <Move size={20} />, label: 'Transformasi' },
+    { id: 'restore', icon: <Sparkles size={20} />, label: 'Restorasi (Noise)' },
+    { id: 'edge', icon: <BoxSelect size={20} />, label: 'Tepi & Biner' },
+    { id: 'color', icon: <Palette size={20} />, label: 'Pengolahan Warna' },
+    { id: 'segment', icon: <ScanLine size={20} />, label: 'Segmentasi' },
+    { id: 'compress', icon: <Minimize size={20} />, label: 'Kompresi' },
   ]
 
   return (

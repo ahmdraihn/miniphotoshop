@@ -15,8 +15,8 @@ function App() {
           <h1>Mini Photoshop</h1>
         </div>
         <div className="header-actions">
-          <button className="glass-button">Import Image</button>
-          <button className="glass-button primary">Export</button>
+          <button className="glass-button">Impor Gambar</button>
+          <button className="glass-button primary">Ekspor</button>
         </div>
       </header>
 
