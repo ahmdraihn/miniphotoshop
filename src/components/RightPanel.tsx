@@ -57,12 +57,87 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
             </div>
           </>
         )
-      default:
+      case 'restore':
         return (
-          <div className="placeholder-text">
-            Parameters for {activeTool} will appear here.
-          </div>
+          <>
+            <div className="param-group">
+              <label>Filter Type</label>
+              <select className="glass-select">
+                <option>Gaussian Blur</option>
+                <option>Median Filter</option>
+                <option>Remove Salt & Pepper</option>
+              </select>
+            </div>
+            <div className="param-group mt-4">
+              <label>Kernel Size</label>
+              <input type="range" className="slider" min="3" max="15" step="2" defaultValue="5" />
+            </div>
+          </>
         )
+      case 'color':
+        return (
+          <>
+            <div className="action-grid mb-4">
+              <button className="glass-button">To Grayscale</button>
+              <button className="glass-button">Split RGB</button>
+            </div>
+            <div className="param-group mt-4">
+              <label>Hue Adjustment</label>
+              <input type="range" className="slider" min="-180" max="180" defaultValue="0" />
+            </div>
+          </>
+        )
+      case 'segment':
+        return (
+          <>
+            <div className="param-group">
+              <label>Segmentation Method</label>
+              <select className="glass-select">
+                <option>Threshold-based</option>
+                <option>Edge-based</option>
+                <option>Region-based</option>
+              </select>
+            </div>
+            <button className="glass-button w-full mt-4">Extract Object</button>
+          </>
+        )
+      case 'compress':
+        return (
+          <>
+            <div className="param-group">
+              <label>Compression Method</label>
+              <select className="glass-select">
+                <option>JPEG Simulation</option>
+                <option>Huffman Coding</option>
+                <option>Run-Length (RLE)</option>
+                <option>Kuantisasi</option>
+              </select>
+            </div>
+            <div className="param-group mt-4">
+              <label>Quality (Low - High)</label>
+              <input type="range" className="slider" min="1" max="100" defaultValue="80" />
+            </div>
+          </>
+        )
+      case 'ai':
+        return (
+          <>
+            <div className="param-group">
+              <label>Target Object</label>
+              <select className="glass-select">
+                <option>Cat / Dog (Hewan)</option>
+                <option>Human / Person</option>
+                <option>Vehicles</option>
+              </select>
+            </div>
+            <button className="glass-button w-full mt-4 primary">Run CNN Detection</button>
+            <div className="mt-4" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', textAlign: 'center' }}>
+              Model: MobileNetV2 (TensorFlow/Keras)
+            </div>
+          </>
+        )
+      default:
+        return null
     }
   }
 
