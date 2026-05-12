@@ -826,8 +826,8 @@ function App() {
     <div className="app-container">
       <header className="glass-panel app-header">
         <div className="logo-area">
-          <div className="logo-icon"></div>
-          <h1>Mini Photoshop Pro</h1>
+          <div className="logo-icon">M</div>
+          <h1>Mipho</h1>
         </div>
         <div className="header-actions">
           <button className="glass-button" onClick={handleImport}>Impor Gambar</button>
@@ -850,15 +850,15 @@ function App() {
       </main>
       
       <style>{`
-        .app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; padding: 1rem; gap: 1rem; overflow: hidden; background: #0f111a; color: #fff; font-family: sans-serif; }
-        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; border-radius: 12px; height: 64px; flex-shrink: 0; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
+        .app-container { display: flex; flex-direction: column; height: 100vh; width: 100vw; padding: 1rem; gap: 1rem; overflow: hidden; background: transparent; }
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; border-radius: 12px; height: 64px; flex-shrink: 0; }
         .logo-area { display: flex; align-items: center; gap: 0.75rem; }
-        .logo-icon { width: 24px; height: 24px; border-radius: 6px; background: linear-gradient(135deg, #00f0ff, #ff0055); box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); }
+        .logo-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent-color), #818cf8); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4); }
+        .logo-area h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.03em; }
         .header-actions { display: flex; gap: 0.75rem; }
         .app-content { display: flex; flex: 1; gap: 1rem; min-height: 0; }
-        .glass-button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #a0a4b8; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.85rem; }
-        .glass-button.primary { background: rgba(0, 240, 255, 0.1); color: #00f0ff; border-color: rgba(0, 240, 255, 0.3); }
-        .glass-button:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
+        .glass-button.primary { background: var(--accent-color); color: #fff; border-color: transparent; }
+        .glass-button.primary:hover:not(:disabled) { background: var(--accent-hover); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35); }
       `}</style>
     </div>
   )

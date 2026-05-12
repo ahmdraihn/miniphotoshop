@@ -61,8 +61,9 @@ export default function ObjectRecognitionML({ onApply }: FeatureProps) {
         .text-secondary { color: var(--text-secondary); }
         .glass-panel-sub {
           background: rgba(0, 0, 0, 0.2);
-          border: 1px solid var(--panel-border);
+          border: 1px solid rgba(255, 255, 255, 0.05);
           border-radius: 8px;
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
         }
       `}</style>
     </div>

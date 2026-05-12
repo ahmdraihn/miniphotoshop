@@ -125,7 +125,7 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
           flex-direction: column;
           overflow: hidden;
           flex-shrink: 0;
-          background: rgba(15, 17, 26, 0.95);
+          background: rgba(24, 24, 27, 0.4);
           border-left: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -141,28 +141,30 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
         }
 
         .actions-section {
-          background: rgba(0, 0, 0, 0.4);
+          background: rgba(9, 9, 11, 0.5);
           border-top: 1px solid rgba(255, 255, 255, 0.05);
           padding: 1.25rem;
         }
 
         .section-title {
           font-size: 0.7rem;
-          color: #00f0ff;
+          color: var(--text-secondary);
           text-transform: uppercase;
           letter-spacing: 0.15em;
           margin-bottom: 1.25rem;
-          font-weight: 800;
+          font-weight: 700;
         }
 
         .histogram-mockup {
           width: 100%;
           height: 80px;
-          background: rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.2);
           border-radius: 8px;
           padding: 0.5rem;
           display: flex;
           flex-direction: column;
+          border: 1px solid rgba(255, 255, 255, 0.03);
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .histogram-labels {
@@ -170,7 +172,7 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
           justify-content: space-between;
           gap: 0.5rem;
           margin-bottom: 0.75rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: var(--text-secondary);
           font-size: 0.75rem;
         }
 
@@ -188,8 +190,8 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
 
         .histogram-title {
           font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.75);
-          font-weight: 700;
+          color: var(--text-primary);
+          font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.08em;
         }
@@ -203,41 +205,43 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
 
         .bar {
           flex: 1;
-          background: #00f0ff;
+          background: var(--accent-color);
           border-radius: 1px 1px 0 0;
+          opacity: 0.8;
+          transition: height 0.3s ease;
         }
 
         .placeholder-text {
-          color: rgba(255, 255, 255, 0.3);
+          color: var(--text-secondary);
           font-size: 0.8rem;
-          font-style: italic;
           text-align: center;
           padding: 1rem 0;
         }
 
         .placeholder-text.danger {
-          color: #ff4d4d;
+          color: var(--danger-color);
         }
 
         .w-full { width: 100%; }
 
         .glass-button {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #fff;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: var(--text-primary);
           padding: 0.6rem;
           border-radius: 8px;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          font-weight: 500;
         }
 
         .glass-button:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: #00f0ff;
+          background: rgba(255, 255, 255, 0.08);
+          transform: translateY(-1px);
         }
 
         button:disabled {
-          opacity: 0.3;
+          opacity: 0.4;
           cursor: not-allowed;
         }
       `}</style>
