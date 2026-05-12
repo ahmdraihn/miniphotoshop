@@ -1,179 +1,137 @@
+import ImageManagement from './features/ImageManagement'
+import ImageEnhancement from './features/ImageEnhancement'
+import GeometricTransformation from './features/GeometricTransformation'
+import ImageRestoration from './features/ImageRestoration'
+import BinaryEdgeProcessing from './features/BinaryEdgeProcessing'
+import ColorProcessing from './features/ColorProcessing'
+import ImageSegmentation from './features/ImageSegmentation'
+import ImageCompression from './features/ImageCompression'
+import ObjectRecognitionML from './features/ObjectRecognitionML'
+
 interface RightPanelProps {
   activeTool: string;
+  onApply: (type: string) => void; 
+  hasImage: boolean;
+  sourceImage: string | null;
+  processedImage: string | null;
+  histBefore: number[];
+  histAfter: number[];
 }
 
-export default function RightPanel({ activeTool }: RightPanelProps) {
+export default function RightPanel({ activeTool, onApply, hasImage, histBefore, histAfter }: RightPanelProps) {
   
+  // Fungsi untuk merender modul parameter berdasarkan tool yang dipilih di sidebar
   const renderParameters = () => {
     switch(activeTool) {
+      case 'ImageManagement':
+        return <ImageManagement onApply={onApply} />;
+      case 'ImageEnhancement':
       case 'enhance':
-        return (
-          <>
-            <div className="param-group">
-              <label>Kecerahan (Brightness)</label>
-              <input type="range" className="slider" min="-100" max="100" defaultValue="10" />
-            </div>
-            <div className="param-group">
-              <label>Kontras (Contrast)</label>
-              <input type="range" className="slider" min="-100" max="100" defaultValue="20" />
-            </div>
-            <div className="param-group">
-              <label>Saturasi (Saturation)</label>
-              <input type="range" className="slider" min="0" max="200" defaultValue="150" />
-            </div>
-            <button className="glass-button w-full mt-4">Terapkan Ekualisasi</button>
-          </>
-        )
+        return <ImageEnhancement onApply={onApply} />;
+      case 'GeometricTransformation':
       case 'transform':
-        return (
-          <>
-            <div className="param-group">
-              <label>Putar (Derajat)</label>
-              <input type="range" className="slider" min="0" max="360" defaultValue="0" />
-            </div>
-            <div className="action-grid mt-4">
-              <button className="glass-button">Balik H</button>
-              <button className="glass-button">Balik V</button>
-              <button className="glass-button">Potong (Crop)</button>
-              <button className="glass-button">Ubah Ukuran</button>
-            </div>
-          </>
-        )
-      case 'edge':
-        return (
-          <>
-            <div className="param-group">
-              <label>Metode</label>
-              <select className="glass-select">
-                <option>Canny</option>
-                <option>Sobel</option>
-                <option>Prewitt</option>
-                <option>Laplacian</option>
-              </select>
-            </div>
-            <div className="param-group mt-4">
-              <label>Ambang Batas (Threshold)</label>
-              <input type="range" className="slider" min="0" max="255" defaultValue="128" />
-            </div>
-          </>
-        )
+        return <GeometricTransformation onApply={onApply} />;
+      case 'ImageRestoration':
       case 'restore':
-        return (
-          <>
-            <div className="param-group">
-              <label>Jenis Filter</label>
-              <select className="glass-select">
-                <option>Gaussian Blur</option>
-                <option>Filter Median</option>
-                <option>Hapus Noise Salt & Pepper</option>
-              </select>
-            </div>
-            <div className="param-group mt-4">
-              <label>Ukuran Kernel</label>
-              <input type="range" className="slider" min="3" max="15" step="2" defaultValue="5" />
-            </div>
-          </>
-        )
+        return <ImageRestoration onApply={onApply} />;
+      case 'BinaryEdgeProcessing':
+      case 'edge':
+        return <BinaryEdgeProcessing onApply={onApply} />;
+      case 'ColorProcessing':
       case 'color':
-        return (
-          <>
-            <div className="action-grid mb-4">
-              <button className="glass-button">Ke Grayscale</button>
-              <button className="glass-button">Pecah RGB</button>
-            </div>
-            <div className="param-group mt-4">
-              <label>Penyesuaian Hue</label>
-              <input type="range" className="slider" min="-180" max="180" defaultValue="0" />
-            </div>
-          </>
-        )
+        return <ColorProcessing onApply={onApply} />;
+      case 'ImageSegmentation':
       case 'segment':
-        return (
-          <>
-            <div className="param-group">
-              <label>Metode Segmentasi</label>
-              <select className="glass-select">
-                <option>Berbasis Threshold</option>
-                <option>Berbasis Tepi (Edge)</option>
-                <option>Berbasis Wilayah (Region)</option>
-              </select>
-            </div>
-            <button className="glass-button w-full mt-4">Ekstrak Objek</button>
-          </>
-        )
+        return <ImageSegmentation onApply={onApply} />;
+      case 'ImageCompression':
       case 'compress':
-        return (
-          <>
-            <div className="param-group">
-              <label>Metode Kompresi</label>
-              <select className="glass-select">
-                <option>Simulasi JPEG</option>
-                <option>Huffman Coding</option>
-                <option>Run-Length (RLE)</option>
-                <option>Kuantisasi</option>
-              </select>
-            </div>
-            <div className="param-group mt-4">
-              <label>Kualitas (Rendah - Tinggi)</label>
-              <input type="range" className="slider" min="1" max="100" defaultValue="80" />
-            </div>
-          </>
-        )
+        return <ImageCompression onApply={onApply} />;
+      case 'ObjectRecognitionML':
+        return <ObjectRecognitionML onApply={onApply} />;
       default:
-        return null
+        return <div className="placeholder-text">Pilih fitur untuk memulai</div>;
     }
   }
 
   return (
     <aside className="glass-panel right-panel animate-fade-in">
       
+      {/* Fitur 9: Histogram Analysis */}
       <div className="panel-section">
-        <h3 className="section-title">Histogram</h3>
-        <div className="histogram-mockup">
-          {/* Mockup Histogram with CSS bars */}
-          <div className="bars">
-            {Array.from({ length: 40 }).map((_, i) => (
-              <div 
-                key={i} 
-                className="bar" 
-                style={{ 
-                  height: `${20 + Math.random() * 80}%`,
-                  opacity: 0.5 + (i/80)
-                }} 
-              />
-            ))}
-          </div>
-          <div className="hist-labels">
-            <span>0</span>
-            <span>255</span>
-          </div>
+        <h3 className="section-title">9. Histogram Analysis</h3>
+        <div className="histogram-stack">
+          {(['before', 'after'] as const).map((type) => {
+            const values = type === 'before' ? histBefore : histAfter;
+            const bucketSize = Math.ceil((values.length || 1) / 40);
+            const buckets: number[] = values.length
+              ? Array.from({ length: 40 }, (_, i) => values.slice(i * bucketSize, i * bucketSize + bucketSize).reduce((sum, v) => sum + v, 0))
+              : Array.from<number>({ length: 40 }).fill(0);
+            const maxValue = Math.max(...buckets, 1);
+            return (
+              <div key={type} className="histogram-mockup histogram-chart">
+                <div className="histogram-title">{type === 'before' ? 'Before' : 'After'}</div>
+                <div className="bars">
+                  {buckets.map((value, i) => (
+                    <div
+                      key={`${type}-${i}`}
+                      className="bar"
+                      style={{
+                        height: `${(value / maxValue) * 100}%`,
+                        opacity: 0.7,
+                        background: type === 'before' ? '#00f0ff' : '#ff7d00'
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
+      {/* Kontrol Parameter Fitur */}
       <div className="panel-section flex-1">
-        <h3 className="section-title">Properti</h3>
+        <h3 className="section-title">Spesifikasi Parameter</h3>
         <div className="properties-content">
-          {renderParameters()}
+          {!hasImage ? (
+            <p className="placeholder-text danger">
+              Impor gambar terlebih dahulu untuk mengaktifkan fitur
+            </p>
+          ) : (
+            renderParameters()
+          )}
         </div>
       </div>
       
+      {/* Tombol Aksi Global (Requirement 10) */}
       <div className="panel-section actions-section">
-        <button className="glass-button w-full primary mb-2">Proses Gambar</button>
-        <button className="glass-button w-full">Kembali ke Asli</button>
+        {/* Tombol "Proses Gambar" dihapus karena perubahan slider 
+          sudah bersifat Real-Time/Otomatis. 
+        */}
+        <button 
+          className="glass-button w-full" 
+          disabled={!hasImage}
+          onClick={() => onApply('reset')}
+        >
+          Kembali ke Asli (Reset)
+        </button>
       </div>
 
       <style>{`
         .right-panel {
-          width: 300px;
+          width: 320px;
           border-radius: 12px;
           display: flex;
           flex-direction: column;
           overflow: hidden;
+          flex-shrink: 0;
+          background: rgba(15, 17, 26, 0.95);
+          border-left: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .panel-section {
           padding: 1.5rem;
-          border-bottom: 1px solid var(--panel-border);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .panel-section.flex-1 {
@@ -183,27 +141,57 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
         }
 
         .actions-section {
-          background: rgba(0,0,0,0.2);
-          border-top: 1px solid var(--panel-border);
-          border-bottom: none;
+          background: rgba(0, 0, 0, 0.4);
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          padding: 1.25rem;
         }
 
         .section-title {
-          font-size: 0.875rem;
-          color: var(--text-secondary);
+          font-size: 0.7rem;
+          color: #00f0ff;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
-          margin-bottom: 1rem;
+          letter-spacing: 0.15em;
+          margin-bottom: 1.25rem;
+          font-weight: 800;
         }
 
         .histogram-mockup {
           width: 100%;
-          height: 120px;
-          background: rgba(0,0,0,0.3);
+          height: 80px;
+          background: rgba(0, 0, 0, 0.3);
           border-radius: 8px;
           padding: 0.5rem;
           display: flex;
           flex-direction: column;
+        }
+
+        .histogram-labels {
+          display: flex;
+          justify-content: space-between;
+          gap: 0.5rem;
+          margin-bottom: 0.75rem;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.75rem;
+        }
+
+        .histogram-stack {
+          display: grid;
+          gap: 0.75rem;
+        }
+
+        .histogram-chart {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          height: 90px;
+        }
+
+        .histogram-title {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.75);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
         }
 
         .bars {
@@ -215,90 +203,44 @@ export default function RightPanel({ activeTool }: RightPanelProps) {
 
         .bar {
           flex: 1;
-          background: var(--accent-color);
+          background: #00f0ff;
           border-radius: 1px 1px 0 0;
         }
 
-        .hist-labels {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.65rem;
-          color: var(--text-secondary);
-          margin-top: 4px;
-        }
-
-        .param-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          margin-bottom: 1.25rem;
-        }
-
-        .param-group label {
-          font-size: 0.875rem;
-          font-weight: 500;
-        }
-
-        .slider {
-          -webkit-appearance: none;
-          width: 100%;
-          height: 4px;
-          border-radius: 2px;
-          background: rgba(255,255,255,0.1);
-          outline: none;
-        }
-
-        .slider::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background: var(--accent-color);
-          cursor: pointer;
-          box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
-        }
-
-        .glass-select {
-          background: rgba(0,0,0,0.2);
-          border: 1px solid var(--panel-border);
-          color: var(--text-primary);
-          padding: 0.5rem;
-          border-radius: 6px;
-          font-family: var(--font-body);
-          outline: none;
-        }
-        
-        .glass-select option {
-          background: var(--bg-color);
-        }
-
-        .w-full {
-          width: 100%;
-        }
-
-        .mt-4 {
-          margin-top: 1rem;
-        }
-
-        .mb-2 {
-          margin-bottom: 0.5rem;
-        }
-
-        .action-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 0.5rem;
-        }
-
         .placeholder-text {
-          color: var(--text-secondary);
-          font-size: 0.875rem;
+          color: rgba(255, 255, 255, 0.3);
+          font-size: 0.8rem;
           font-style: italic;
           text-align: center;
-          padding: 2rem 0;
+          padding: 1rem 0;
+        }
+
+        .placeholder-text.danger {
+          color: #ff4d4d;
+        }
+
+        .w-full { width: 100%; }
+
+        .glass-button {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #fff;
+          padding: 0.6rem;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .glass-button:hover:not(:disabled) {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: #00f0ff;
+        }
+
+        button:disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
         }
       `}</style>
     </aside>
-  )
+  );
 }
