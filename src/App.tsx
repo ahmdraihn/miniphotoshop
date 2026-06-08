@@ -132,8 +132,12 @@ function App() {
 
     // Fitur Reset: Mengembalikan ke gambar asli & reset slider di UI
     if (type === 'reset') {
-      const allSliders = document.querySelectorAll('input[type="range"]');
+      // Reset semua slider kecuali confidence-slider (punya state sendiri di React)
+      const allSliders = document.querySelectorAll('input[type="range"]:not(.confidence-slider)');
       allSliders.forEach((s) => ((s as HTMLInputElement).value = "0"));
+      // Reset hasil CNN
+      setCnnResult(null);
+      setCnnStatus("Menunggu eksekusi model CNN...");
       return setProcessedImage(sourceImage);
     }
 

@@ -19,7 +19,6 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
         <label>Target Objek (Metode CNN)</label>
         <select 
           className="glass-select w-full target-select"
-          onChange={(e) => onApply(`set-target-${e.target.value}`)}
         >
           <option value="human">Manusia (Human)</option>
           <option value="animals">Hewan (Animals)</option>
