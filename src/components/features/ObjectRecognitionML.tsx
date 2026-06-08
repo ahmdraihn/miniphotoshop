@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 interface FeatureProps {
   onApply: (type: string) => void;
   cnnResult?: {
@@ -10,6 +12,7 @@ interface FeatureProps {
 }
 
 export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: FeatureProps) {
+  const [threshold, setThreshold] = useState(50);
   return (
     <div className="feature-group animate-fade-in">
       <div className="param-group">
@@ -26,19 +29,23 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
       </div>
 
       <div className="param-group mt-4">
-        <label>Confidence Threshold</label>
+        <div className="flex justify-between items-center mb-1">
+          <label>Confidence Threshold</label>
+          <span className="text-xs font-bold text-accent">{threshold}%</span>
+        </div>
         <input 
           type="range" 
           className="slider confidence-slider" 
-          min="50" 
+          min="10" 
           max="99" 
-          defaultValue="75" 
-          onChange={(e) => onApply(`confidence-${e.target.value}`)}
+          value={threshold}
+          onChange={(e) => setThreshold(Number(e.target.value))}
         />
         <div className="flex justify-between text-[10px] text-secondary mt-1">
-          <span>Fast</span>
-          <span>Accurate</span>
+          <span>10% (lebih banyak hasil)</span>
+          <span>99% (ketat)</span>
         </div>
+        <p className="text-[10px] text-secondary mt-1 italic">Prediksi di bawah {threshold}% akan diabaikan.</p>
       </div>
 
       <button 

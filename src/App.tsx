@@ -504,8 +504,20 @@ function App() {
           }
 
           const result = await response.json();
+
+          // Baca threshold dari slider di UI
+          const confidenceSlider = document.querySelector('.confidence-slider') as HTMLInputElement;
+          const minThreshold = confidenceSlider ? parseFloat(confidenceSlider.value) : 50;
+
+          // Jika confidence di bawah threshold, tolak hasil
+          if (result.confidence < minThreshold) {
+            setCnnResult(null);
+            setCnnStatus(`Confidence terlalu rendah (${result.confidence}% < ${minThreshold}%). Coba turunkan threshold.`);
+            return;
+          }
+
           setCnnResult(result);
-          setCnnStatus(`Inferensi selesai. Objek terdeteksi: ${result.class}`);
+          setCnnStatus(`Inferensi selesai. Objek terdeteksi: ${result.class} (${result.confidence}%)`);
 
           // Gambar bounding box pada canvas
           canvas.width = img.width;
@@ -539,6 +551,7 @@ function App() {
           alert(`Error CNN: ${err.message || 'Gagal menghubungi server backend. Pastikan API FastAPI Anda aktif di port 8000.'}`);
         }
       };
+
 
       const selectedSegmentMethodValue = getInputValue('.segment-method-select', 'threshold-based');
       const selectedSegmentMethod = selectedSegmentMethodValue.split('-')[0];
