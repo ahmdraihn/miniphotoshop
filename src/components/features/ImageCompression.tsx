@@ -1,27 +1,39 @@
+import { useState } from 'react';
+
 interface FeatureProps {
   onApply: (type: string) => void;
 }
 
 export default function ImageCompression({ onApply }: FeatureProps) {
+  // Menyimpan state lokal untuk mengetahui metode apa yang sedang dipilih
+  const [selectedMethod, setSelectedMethod] = useState('jpeg');
+
+  const handleMethodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const method = e.target.value;
+    setSelectedMethod(method);
+    onApply(`compress-method-${method}`);
+  };
+
   return (
     <div className="feature-group animate-fade-in">
       <div className="param-group">
         <label>Metode Teknis</label>
-        {/* Menghubungkan pilihan metode kompresi ke fungsi onApply */}
         <select 
           className="glass-select w-full compress-method-select"
-          onChange={(e) => onApply(`compress-method-${e.target.value}`)}
+          value={selectedMethod}
+          onChange={handleMethodChange}
         >
-          <option value="jpeg">Simulasi JPEG (Kuantisasi)</option>
-          <option value="huffman">Huffman Coding</option>
-          <option value="rle">Run-Length (RLE)</option>
-          <option value="lzw">LZW / Aritmatik</option>
+          <option value="jpeg">Metode Kuantisasi (JPEG / Lossy)</option>
+          <option value="huffman">Huffman Coding (Lossless)</option>
+          <option value="arithmetic">Arithmetic Coding (Lossless)</option>
+          <option value="lzw">LZW (Lossless)</option>
+          <option value="rle">Run-Length Encoding / RLE (Lossless)</option>
         </select>
       </div>
 
-      <div className="param-group mt-4">
-        <label>Kualitas Output (1-100)</label>
-        {/* Slider untuk mengatur rasio kompresi secara real-time */}
+      {/* Jika yang dipilih bukan JPEG, buat slider menjadi transparan dan tidak bisa diklik */}
+      <div className={`param-group mt-4 ${selectedMethod !== 'jpeg' ? 'opacity-50 pointer-events-none' : ''}`}>
+        <label>Kualitas Output (1-100) {selectedMethod !== 'jpeg' && '- Nonaktif'}</label>
         <input 
           type="range" 
           className="slider quality-slider" 
@@ -29,6 +41,7 @@ export default function ImageCompression({ onApply }: FeatureProps) {
           max="100" 
           defaultValue="80" 
           onChange={(e) => onApply(`quality-${e.target.value}`)}
+          disabled={selectedMethod !== 'jpeg'}
         />
         <div className="flex justify-between text-[10px] text-secondary mt-1">
           <span>High Compression</span>
@@ -57,6 +70,8 @@ export default function ImageCompression({ onApply }: FeatureProps) {
         .flex { display: flex; }
         .justify-between { justify-content: space-between; }
         .text-secondary { color: var(--text-secondary); }
+        .opacity-50 { opacity: 0.5; }
+        .pointer-events-none { pointer-events: none; cursor: not-allowed; }
       `}</style>
     </div>
   );

@@ -107,7 +107,7 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
         .text-accent { color: var(--accent-color); }
         .text-green-400 { color: #4ade80; }
         .text-white { color: #ffffff; }
-        .text-white\/80 { color: rgba(255, 255, 255, 0.8); }
+        .text-white80 { color: rgba(255, 255, 255, 0.8); }
         .text-xs { font-size: 0.75rem; }
         .text-sm { font-size: 0.875rem; }
         .font-semibold { font-weight: 600; }
@@ -126,4 +126,4 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
       `}</style>
     </div>
   );
-}
+}
