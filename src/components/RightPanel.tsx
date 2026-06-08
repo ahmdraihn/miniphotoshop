@@ -16,9 +16,24 @@ interface RightPanelProps {
   processedImage: string | null;
   histBefore: number[];
   histAfter: number[];
+  cnnResult: {
+    class: string;
+    confidence: number;
+    category: string;
+    top_predictions?: Array<{ class: string; confidence: number }>;
+  } | null;
+  cnnStatus: string;
 }
 
-export default function RightPanel({ activeTool, onApply, hasImage, histBefore, histAfter }: RightPanelProps) {
+export default function RightPanel({ 
+  activeTool, 
+  onApply, 
+  hasImage, 
+  histBefore, 
+  histAfter,
+  cnnResult,
+  cnnStatus
+}: RightPanelProps) {
   
   // Fungsi untuk merender modul parameter berdasarkan tool yang dipilih di sidebar
   const renderParameters = () => {
@@ -47,7 +62,7 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
       case 'compress':
         return <ImageCompression onApply={onApply} />;
       case 'ObjectRecognitionML':
-        return <ObjectRecognitionML onApply={onApply} />;
+        return <ObjectRecognitionML onApply={onApply} cnnResult={cnnResult} cnnStatus={cnnStatus} />;
       default:
         return <div className="placeholder-text">Pilih fitur untuk memulai</div>;
     }
@@ -58,7 +73,7 @@ export default function RightPanel({ activeTool, onApply, hasImage, histBefore, 
       
       {/* Fitur 9: Histogram Analysis */}
       <div className="panel-section">
-        <h3 className="section-title">9. Histogram Analysis</h3>
+        <h3 className="section-title">Histogram Analysis</h3>
         <div className="histogram-stack">
           {(['before', 'after'] as const).map((type) => {
             const values = type === 'before' ? histBefore : histAfter;

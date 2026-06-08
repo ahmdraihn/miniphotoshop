@@ -10,6 +10,9 @@ function App() {
   const [processedImage, setProcessedImage] = useState<string | null>(null)
   const [histBefore, setHistBefore] = useState<number[]>([])
   const [histAfter, setHistAfter] = useState<number[]>([])
+  
+  const [cnnResult, setCnnResult] = useState<any | null>(null)
+  const [cnnStatus, setCnnStatus] = useState<string>("Menunggu eksekusi model CNN...")
 
   // Fitur 1: Manajemen Impor Gambar
   const handleImport = () => {
@@ -483,32 +486,58 @@ function App() {
         return out;
       };
 
-      const runCnnInference = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        const target = getInputValue('.target-select', 'human');
-        const confidence = parseNum(getInputValue('.confidence-slider', '75'));
-        const labels = {
-          human: 'Human',
-          animals: 'Animals',
-          vehicle: 'Vehicle',
-          others: 'Object',
-        };
-        const boxes = [
-          { x: img.width * 0.15, y: img.height * 0.2, w: img.width * 0.25, h: img.height * 0.35 },
-          { x: img.width * 0.55, y: img.height * 0.25, w: img.width * 0.3, h: img.height * 0.4 },
-        ];
-        ctx.strokeStyle = '#00f0ff';
-        ctx.lineWidth = 3;
-        ctx.font = '20px sans-serif';
-        ctx.fillStyle = 'rgba(0, 240, 255, 0.85)';
-        boxes.forEach((box, idx) => {
+      const runCnnInference = async () => {
+        if (!sourceImage) return;
+        setCnnStatus("Menghubungi API Server CNN...");
+        try {
+          const response = await fetch("http://127.0.0.1:8000/predict", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ image: sourceImage }),
+          });
+
+          if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.detail || "Gagal melakukan inferensi.");
+          }
+
+          const result = await response.json();
+          setCnnResult(result);
+          setCnnStatus(`Inferensi selesai. Objek terdeteksi: ${result.class}`);
+
+          // Gambar bounding box pada canvas
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const box = result.box;
+          ctx.strokeStyle = '#00f0ff';
+          ctx.lineWidth = Math.max(3, Math.round(img.width * 0.005));
+          ctx.font = `bold ${Math.max(14, Math.round(img.width * 0.025))}px sans-serif`;
+          ctx.fillStyle = 'rgba(0, 240, 255, 0.85)';
+
+          // Gambar Box
           ctx.strokeRect(box.x, box.y, box.w, box.h);
-          const text = `${labels[target as keyof typeof labels] || 'Object'} ${confidence}%`;
-          ctx.fillText(text, box.x + 8, box.y + 24 + idx * 26);
-        });
-        setProcessedImage(canvas.toDataURL());
+          
+          // Gambar Label Background
+          const labelText = `${result.class} (${result.confidence}%)`;
+          const textWidth = ctx.measureText(labelText).width;
+          const textHeight = Math.max(18, Math.round(img.width * 0.025));
+          ctx.fillStyle = 'rgba(0, 240, 255, 0.9)';
+          ctx.fillRect(box.x, Math.max(0, box.y - textHeight - 4), textWidth + 12, textHeight + 6);
+
+          // Gambar Label Text
+          ctx.fillStyle = '#000000';
+          ctx.fillText(labelText, box.x + 6, Math.max(textHeight, box.y - 4));
+
+          setProcessedImage(canvas.toDataURL());
+        } catch (err: any) {
+          console.error(err);
+          setCnnStatus(`Error: ${err.message || 'Gagal menghubungi server backend.'}`);
+          alert(`Error CNN: ${err.message || 'Gagal menghubungi server backend. Pastikan API FastAPI Anda aktif di port 8000.'}`);
+        }
       };
 
       const selectedSegmentMethodValue = getInputValue('.segment-method-select', 'threshold-based');
@@ -830,6 +859,24 @@ function App() {
           <h1>Mipho</h1>
         </div>
         <div className="header-actions">
+          <input 
+            type="file" 
+            id="test-file-input" 
+            style={{ display: 'none' }} 
+            accept="image/jpeg, image/png, image/bmp"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                  const result = event.target?.result as string;
+                  setSourceImage(result);
+                  setProcessedImage(result);
+                };
+                reader.readAsDataURL(file);
+              }
+            }}
+          />
           <button className="glass-button" onClick={handleImport}>Impor Gambar</button>
           <button className="glass-button primary" onClick={handleExport}>Ekspor</button>
         </div>
@@ -846,6 +893,8 @@ function App() {
           processedImage={processedImage}
           histBefore={histBefore}
           histAfter={histAfter}
+          cnnResult={cnnResult}
+          cnnStatus={cnnStatus}
         />
       </main>
       

@@ -41,14 +41,6 @@ export default function Sidebar({ activeTool, setActiveTool }: SidebarProps) {
         </nav>
       </div>
 
-      {/* Footer Sidebar untuk indikator versi */}
-      <div className="mt-auto">
-        <div className="version-indicator">
-          <Settings size={16} className="mb-1 opacity-70" />
-          <p>Engine V1.0</p>
-        </div>
-      </div>
-
       <style>{`
         .sidebar {
           width: 260px;
