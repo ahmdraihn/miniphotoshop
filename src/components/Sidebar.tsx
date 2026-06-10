@@ -29,18 +29,15 @@ export default function Sidebar({ activeTool, setActiveTool }: SidebarProps) {
         </label>
         
         <nav className="nav-menu">
-          {menuOptions.map((option) => {
-            const isMLActive = option.value === 'ObjectRecognitionML' && activeTool === 'ObjectRecognitionML';
-            return (
-              <button
-                key={option.value}
-                className={`nav-item ${activeTool === option.value ? 'active' : ''} ${isMLActive ? 'font-bold uppercase' : ''}`}
-                onClick={() => setActiveTool(option.value)}
-              >
-                {isMLActive ? option.label.toUpperCase() : option.label}
-              </button>
-            );
-          })}
+          {menuOptions.map((option) => (
+            <button
+              key={option.value}
+              className={`nav-item ${activeTool === option.value ? 'active' : ''}`}
+              onClick={() => setActiveTool(option.value)}
+            >
+              {option.label}
+            </button>
+          ))}
         </nav>
       </div>
 
