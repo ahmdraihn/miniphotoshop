@@ -15,7 +15,7 @@ export default function Canvas({ sourceImage, processedImage }: CanvasProps) {
   return (
     <section className="glass-panel canvas-area animate-fade-in">
       <div className="canvas-header">
-        <h2 className="canvas-title">9. Workspace Preview</h2>
+        <h2 className="canvas-title">Workspace Preview</h2>
         <div className="zoom-controls">
           <button className="glass-button" onClick={handleZoomOut}>-</button>
           <span className="zoom-value">{Math.round(zoom * 100)}%</span>

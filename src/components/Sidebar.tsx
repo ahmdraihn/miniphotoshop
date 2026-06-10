@@ -24,10 +24,6 @@ export default function Sidebar({ activeTool, setActiveTool }: SidebarProps) {
   return (
     <aside className="glass-panel sidebar animate-fade-in">
       <div className="mb-4">
-        <label className={`text-[10px] uppercase text-secondary/50 block mb-3 tracking-[0.1em] px-2 ${activeTool === 'ObjectRecognitionML' ? 'font-black text-accent' : 'font-bold'}`}>
-          {activeTool === 'ObjectRecognitionML' ? 'MENU TOOLBAR' : 'Menu Toolbar'}
-        </label>
-        
         <nav className="nav-menu">
           {menuOptions.map((option) => (
             <button
