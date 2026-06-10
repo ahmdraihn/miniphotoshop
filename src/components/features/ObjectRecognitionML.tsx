@@ -17,7 +17,7 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
     <div className="feature-group animate-fade-in">
       <div className="param-group">
         <label>Target Objek (Metode CNN)</label>
-        <select 
+        <select
           className="glass-select w-full target-select"
         >
           <option value="human">Manusia (Human)</option>
@@ -32,11 +32,11 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
           <label>Confidence Threshold</label>
           <span className="text-xs font-bold text-accent">{threshold}%</span>
         </div>
-        <input 
-          type="range" 
-          className="slider confidence-slider" 
-          min="10" 
-          max="99" 
+        <input
+          type="range"
+          className="slider confidence-slider"
+          min="10"
+          max="99"
           value={threshold}
           onChange={(e) => setThreshold(Number(e.target.value))}
         />
@@ -47,7 +47,7 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
         <p className="text-[10px] text-secondary mt-1 italic">Prediksi di bawah {threshold}% akan diabaikan.</p>
       </div>
 
-      <button 
+      <button
         className="glass-button w-full primary mt-4"
         onClick={() => onApply('run-cnn-inference')}
       >
@@ -77,7 +77,7 @@ export default function ObjectRecognitionML({ onApply, cnnResult, cnnStatus }: F
               <div className="mt-1 space-y-1">
                 {cnnResult.top_predictions.map((pred, i) => (
                   <div key={i} className="flex justify-between text-[11px]">
-                    <span className="text-white/80">{i+1}. {pred.class}</span>
+                    <span className="text-white/80">{i + 1}. {pred.class}</span>
                     <span className="text-secondary">{pred.confidence.toFixed(1)}%</span>
                   </div>
                 ))}

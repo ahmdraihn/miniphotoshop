@@ -24,20 +24,23 @@ export default function Sidebar({ activeTool, setActiveTool }: SidebarProps) {
   return (
     <aside className="glass-panel sidebar animate-fade-in">
       <div className="mb-4">
-        <label className="text-[10px] uppercase text-secondary/50 block mb-3 font-bold tracking-[0.1em] px-2">
-          Menu Toolbar
+        <label className={`text-[10px] uppercase text-secondary/50 block mb-3 tracking-[0.1em] px-2 ${activeTool === 'ObjectRecognitionML' ? 'font-black text-accent' : 'font-bold'}`}>
+          {activeTool === 'ObjectRecognitionML' ? 'MENU TOOLBAR' : 'Menu Toolbar'}
         </label>
         
         <nav className="nav-menu">
-          {menuOptions.map((option) => (
-            <button
-              key={option.value}
-              className={`nav-item ${activeTool === option.value ? 'active' : ''}`}
-              onClick={() => setActiveTool(option.value)}
-            >
-              {option.label}
-            </button>
-          ))}
+          {menuOptions.map((option) => {
+            const isMLActive = option.value === 'ObjectRecognitionML' && activeTool === 'ObjectRecognitionML';
+            return (
+              <button
+                key={option.value}
+                className={`nav-item ${activeTool === option.value ? 'active' : ''} ${isMLActive ? 'font-bold uppercase' : ''}`}
+                onClick={() => setActiveTool(option.value)}
+              >
+                {isMLActive ? option.label.toUpperCase() : option.label}
+              </button>
+            );
+          })}
         </nav>
       </div>
 
